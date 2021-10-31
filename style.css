@@ -8,6 +8,8 @@
 /*                                                      ╚═╝╚══════╝GamDev.fr      */
 /* *****************************************************************************  */
 
+@import url(https://fonts.googleapis.com/css?family=Press+Start+2P);
+
 :root {
     --pixel-size: 2px;
     --grid-cell: calc( var(--pixel-size) * 16);
@@ -27,6 +29,7 @@
  
 html, body {
     height: 100%;
+    font-family: "Press Start 2P";
 }
  
 body {
@@ -58,7 +61,7 @@ body {
 
 .map {
     image-rendering: pixelated;
-    background-image: url("assets/map.png");
+    background-image: url("assets/map1.png");
     background-size: 100%;
     width: calc(13 * var(--grid-cell));
     height: calc(10 * var(--grid-cell));
@@ -194,4 +197,38 @@ body {
     top:calc(var(--pixel-size) * 2);
     right:calc(var(--pixel-size) * 2);
     width: calc(var(--pixel-size) * 75)
+}
+
+.info {
+    background-color: #ffff;
+    border-radius: calc(6 * var(--pixel-size));;
+    width: calc(4.5 * var(--grid-cell));
+    height: calc(0.75 * var(--grid-cell));
+    z-index: 0;
+    position: fixed;
+    --b:5px;  /* the thickness */
+    --c:#000; /* the color */
+}
+
+.info::before,
+.info::after { 
+  content: "";
+  position: absolute;
+  inset: 0 0 50% 0;
+  background:
+    linear-gradient(var(--c) 0 0) 50%   0  /calc(100% - 4*var(--b)) var(--b),
+    linear-gradient(var(--c) 0 0) 0%   100%/var(--b) calc(100% - 2*var(--b)),
+    linear-gradient(var(--c) 0 0) 100% 100%/var(--b) calc(100% - 2*var(--b)),
+    conic-gradient(from  90deg,var(--c) 90deg,#0000 0) 0    0/calc(2*var(--b)) calc(2*var(--b)),
+    conic-gradient(from 180deg,var(--c) 90deg,#0000 0) 100% 0/calc(2*var(--b)) calc(2*var(--b));
+  background-repeat: no-repeat;
+}
+.info::after {
+  transform-origin: bottom;
+  transform: scaleY(-1);
+}
+
+.text-info {
+    padding: calc(3 * var(--pixel-size));
+    font-size: calc(2.5 * var(--pixel-size));
 }

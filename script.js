@@ -133,3 +133,18 @@ document.querySelector(".dpad-left").addEventListener("mouseover", (e) => handle
 document.querySelector(".dpad-up").addEventListener("mouseover", (e) => handleDpadPress(directions.up));
 document.querySelector(".dpad-right").addEventListener("mouseover", (e) => handleDpadPress(directions.right));
 document.querySelector(".dpad-down").addEventListener("mouseover", (e) => handleDpadPress(directions.down));
+
+var text = ["Bienvenue dans le monde effrayant des Spookymons !", "Déplace-toi avec les flèches du clavier ou sur l'écran.", "Mission 1: Trouver le fantomichel !"];
+var counter = 0;
+var elem = document.querySelector(".text-info");
+var inst = setInterval(change, 5000);
+
+function change() {
+   elem.innerHTML = text[counter];
+   counter++;
+   if (counter >= text.length) {
+      counter = 0;
+      clearInterval(inst);
+   }
+}
+change();
