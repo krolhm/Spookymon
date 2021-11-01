@@ -8,10 +8,16 @@
 /*                                                      ╚═╝╚══════╝GamDev.fr      */
 /* *****************************************************************************  */
 
-var character = document.querySelector(".character");
-var map = document.querySelector(".map");
 
-// Spawn point
+var map = document.querySelector(".map");
+var audio = new Audio('assets/ambiance.mp3');
+
+// Collectables
+var skulls = document.querySelectorAll(".skull");
+var x1 = 100, y1 = 35;
+
+// Character
+var character = document.querySelector(".character");
 var x = 90;
 var y = 34;
 var held_directions = [];
@@ -47,7 +53,15 @@ const placeCharacter = () => {
    var camera_top = pixelSize * 42;
    
    map.style.transform = `translate3d( ${-x*pixelSize+camera_left}px, ${-y*pixelSize+camera_top}px, 0 )`;
-   character.style.transform = `translate3d( ${x*pixelSize}px, ${y*pixelSize}px, 0 )`;  
+   character.style.transform = `translate3d( ${x*pixelSize}px, ${y*pixelSize}px, 0 )`;
+   // Collectables
+   skulls.forEach(e => e.style.transform = `translate3d( ${e.getAttribute(x) * pixelSize}px, ${e.getAttribute(y) * pixelSize}px, 0 )`);
+   // skulls[0].style.transform = `translate3d( ${x1 * pixelSize}px, ${y1 * pixelSize}px, 0 )`;
+
+   if (x <= x1 + 5 && x >= x1 - 5 && y <= y1 + 5 && y >= y1 - 5)
+   {
+      skulls[0].remove();
+   }
 }
 
 
@@ -56,6 +70,7 @@ const step = () => {
    placeCharacter();
    window.requestAnimationFrame(() => {
       step();
+      audio.play();
    })
 }
 step();

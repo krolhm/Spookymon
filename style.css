@@ -85,7 +85,7 @@ body {
     background-size: 100%;
 }
 
-.character_spritesheet {
+.character_sprite {
     position: absolute;
     background: url("assets/character.png") no-repeat no-repeat;
     background-size: 100%;
@@ -93,16 +93,16 @@ body {
     height: calc( var(--grid-cell)* 8 );
 }
 
-.character[facing="right"] .character_spritesheet {
+.character[facing="right"] .character_sprite {
     background-position-y: calc( var(--pixel-size) * -32 );
 }
-.character[facing="up"] .character_spritesheet {
+.character[facing="up"] .character_sprite {
     background-position-y: calc( var(--pixel-size) * -64 );
 }
-.character[facing="left"] .character_spritesheet {
+.character[facing="left"] .character_sprite {
     background-position-y: calc( var(--pixel-size) * -96 );
 }
-.character[walking="true"] .character_spritesheet {
+.character[walking="true"] .character_sprite {
     animation: walkAnimation 0.6s steps(4) infinite; 
 }
 
@@ -141,22 +141,27 @@ body {
 .dpad-up {
     position: absolute;
     left: calc(var(--pixel-size) * 12);
-    top:0;
+    top: 0;
 }
 .dpad-down {
     position: absolute;
-    bottom:var(--pixel-size);
+    bottom: var(--pixel-size);
     left: calc(var(--pixel-size) * 12);
 }
 .dpad-left {
     position: absolute;
     top: calc(var(--pixel-size) * 12);
-    left:0;
+    left: 0;
 }
 .dpad-right {
     position: absolute;
     top: calc(var(--pixel-size) * 12);
-    right:0;
+    right: 0;
+}
+.dpad-right-right {
+    position: absolute;
+    top: calc(var(--pixel-size) * 12);
+    left: calc(var(--pixel-size) * -100);
 }
 
 .dpad {
@@ -207,7 +212,7 @@ body {
     z-index: 0;
     position: fixed;
     --b:5px;  /* the thickness */
-    --c:#000; /* the color */
+    --c:rgb(88, 88, 88); /* the color */
 }
 
 .info::before,
@@ -231,4 +236,14 @@ body {
 .text-info {
     padding: calc(3 * var(--pixel-size));
     font-size: calc(2.5 * var(--pixel-size));
+    color: rgb(66, 66, 66);
+}
+
+/* Collectables: */
+.skull_sprite {
+    position: absolute;
+    background: url("assets/skull.png") no-repeat no-repeat;
+    background-size: 100%;
+    width: calc( var(--grid-cell)* 2 );
+    height: calc( var(--grid-cell)* 2 );
 }

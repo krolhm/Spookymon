@@ -12,3 +12,5 @@ Game for the [42GameDev](https://42gamedev.fr) GameJam Saison 1
 - Enemies ⏳
 - HUD ⏳
 - Missions (1 ⏳, ...)
+- Music (ambiance ✅)
+- Collectables (skulls ⏳)
