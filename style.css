@@ -30,6 +30,7 @@
 html, body {
     height: 100%;
     font-family: "Press Start 2P";
+    overflow: hidden;
 }
  
 body {
@@ -239,6 +240,24 @@ body {
     color: rgb(66, 66, 66);
 }
 
+/* Prevent to trag or select */
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+img {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+}
+
 /* Collectables: */
 .skull_sprite {
     position: absolute;
@@ -246,4 +265,27 @@ body {
     background-size: 100%;
     width: calc( var(--grid-cell)* 2 );
     height: calc( var(--grid-cell)* 2 );
+}
+
+.orange {
+    color: orange;
+    font-weight: bold;
+}
+
+.inventory {
+    top: calc( var(--grid-cell)* -1 ) !important;
+    left: calc( var(--grid-cell)* -1 ) !important;
+    position: relative;
+    color: white;
+}
+
+.inventory>.box {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+}
+
+.item>.pixel-art {
+    width: 100px;
+    vertical-align: -100%;
 }

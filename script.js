@@ -10,11 +10,14 @@
 
 
 var map = document.querySelector(".map");
-var audio = new Audio('assets/ambiance.mp3');
+
+// Audio
+var ambiance = new Audio('assets/sounds/ambiance.mp3');
+var pickup = new Audio('assets/sounds/pickup.mp3');
+var a = 0;
 
 // Collectables
 var skulls = document.querySelectorAll(".skull");
-var x1 = 100, y1 = 35;
 
 // Character
 var character = document.querySelector(".character");
@@ -22,6 +25,11 @@ var x = 90;
 var y = 34;
 var held_directions = [];
 var speed = 1;
+
+// Inventory
+var inv_skulls_text = document.querySelector(".skulls-text");
+var inv_skulls = 0;
+inv_skulls_text.innerHTML = inv_skulls;
 
 const placeCharacter = () => {
    
@@ -36,6 +44,10 @@ const placeCharacter = () => {
       if (held_direction === directions.down) {y += speed;}
       if (held_direction === directions.up) {y -= speed;}
       character.setAttribute("facing", held_direction);
+      if (a == 0) {
+         a++;
+         ambiance.play();
+      }
    }
    character.setAttribute("walking", held_direction ? "true" : "false");
    
@@ -54,14 +66,23 @@ const placeCharacter = () => {
    
    map.style.transform = `translate3d( ${-x*pixelSize+camera_left}px, ${-y*pixelSize+camera_top}px, 0 )`;
    character.style.transform = `translate3d( ${x*pixelSize}px, ${y*pixelSize}px, 0 )`;
-   // Collectables
-   skulls.forEach(e => e.style.transform = `translate3d( ${e.getAttribute(x) * pixelSize}px, ${e.getAttribute(y) * pixelSize}px, 0 )`);
-   // skulls[0].style.transform = `translate3d( ${x1 * pixelSize}px, ${y1 * pixelSize}px, 0 )`;
 
-   if (x <= x1 + 5 && x >= x1 - 5 && y <= y1 + 5 && y >= y1 - 5)
-   {
-      skulls[0].remove();
-   }
+   // Collectables
+   skulls.forEach(e => e.style.transform = `translate3d( ${e.dataset.x * pixelSize}px, ${e.dataset.y * pixelSize}px, 0 )`);
+   skulls.forEach(function (e) {
+      var a = x - e.dataset.x;
+      var b = y - e.dataset.y;
+      var c = Math.sqrt(a * a + b * b);
+      if (c < 5)
+      {
+         pickup.play();
+         e.remove();
+         inv_skulls++;
+         inv_skulls_text.innerHTML = inv_skulls;
+         skulls = document.querySelectorAll(".skull"); // Actualize skull's list
+      }
+   });
+
 }
 
 
@@ -70,7 +91,7 @@ const step = () => {
    placeCharacter();
    window.requestAnimationFrame(() => {
       step();
-      audio.play();
+      // console.log('x = ' + x + ' | y = ' + y);
    })
 }
 step();
@@ -112,12 +133,8 @@ const removePressedAll = () => {
       d.classList.remove("pressed")
    })
 }
-document.body.addEventListener("mousedown", () => {
-   console.log('mouse is down')
-   isPressed = true;
-})
+document.body.addEventListener("mousedown", () => { isPressed = true; })
 document.body.addEventListener("mouseup", () => {
-   console.log('mouse is up')
    isPressed = false;
    held_directions = [];
    removePressedAll();
@@ -149,14 +166,20 @@ document.querySelector(".dpad-up").addEventListener("mouseover", (e) => handleDp
 document.querySelector(".dpad-right").addEventListener("mouseover", (e) => handleDpadPress(directions.right));
 document.querySelector(".dpad-down").addEventListener("mouseover", (e) => handleDpadPress(directions.down));
 
-var text = ["Bienvenue dans le monde effrayant des Spookymons !", "Déplace-toi avec les flèches du clavier ou sur l'écran.", "Mission 1: Trouver le fantomichel !"];
+// Quest System:
+
+var text = ["Bienvenue dans le monde effrayant des <a class='orange'>Spookymons</a> !", "Déplace-toi avec les flèches du clavier ou sur l'écran.", "Mission 1: Ramasse tous les <a class='orange'>crânes</a>!", "Mission 2: Trouver le <a class='orange'>Fantomichel</a>!"];
 var counter = 0;
 var elem = document.querySelector(".text-info");
 var inst = setInterval(change, 5000);
 
 function change() {
    elem.innerHTML = text[counter];
-   counter++;
+   if (counter < 2) {
+      counter++;
+   }
+   if (counter == 2 && inv_skulls == 4)
+      counter++;
    if (counter >= text.length) {
       counter = 0;
       clearInterval(inst);

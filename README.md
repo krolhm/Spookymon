@@ -8,9 +8,9 @@ Game for the [42GameDev](https://42gamedev.fr) GameJam Saison 1
 - Imposed secret theme: Chimie ⏳
 - Player's Character ✅
 - Map (1 ✅, 2 ⏳)
-- Gameplay ⏳
+- Gameplay (pickUp ✅, ...)
 - Enemies ⏳
-- HUD ⏳
-- Missions (1 ⏳, ...)
-- Music (ambiance ✅)
-- Collectables (skulls ⏳)
+- HUD (inventory ✅, ...)
+- Missions (1 ✅, 2 ⏳, ...)
+- Music (ambiance ✅, pickup ✅)
+- Collectables (skulls ✅)
