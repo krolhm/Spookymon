@@ -10,6 +10,10 @@
 
 
 var map = document.querySelector(".map");
+var map1 = document.querySelector(".map1");
+var nbr_map = 0;
+
+var cauldron = document.querySelector(".cauldron");
 
 // Audio
 var ambiance = new Audio('assets/sounds/ambiance.mp3');
@@ -70,10 +74,7 @@ const placeCharacter = () => {
    // Collectables
    skulls.forEach(e => e.style.transform = `translate3d( ${e.dataset.x * pixelSize}px, ${e.dataset.y * pixelSize}px, 0 )`);
    skulls.forEach(function (e) {
-      var a = x - e.dataset.x;
-      var b = y - e.dataset.y;
-      var c = Math.sqrt(a * a + b * b);
-      if (c < 5)
+      if (distance(x, y, e.dataset.x, e.dataset.y) < 5)
       {
          pickup.play();
          e.remove();
@@ -83,6 +84,18 @@ const placeCharacter = () => {
       }
    });
 
+   // Portal
+   cauldron.style.transform = `translate3d( ${cauldron.dataset.x * pixelSize}px, ${cauldron.dataset.y * pixelSize}px, 0 )`;
+
+   // Go to next level !
+   if (nbr_map == 0 && inv_skulls == 4 && distance(x, y, cauldron.dataset.x, cauldron.dataset.y) < 5)
+   {
+      nbr_map++;
+      inv_skulls = 0;
+      inv_skulls_text.innerHTML = inv_skulls;
+      document.getElementById("map").classList.remove('map1');
+      document.getElementById("map").classList.add('map2');
+   }
 }
 
 
@@ -91,7 +104,6 @@ const step = () => {
    placeCharacter();
    window.requestAnimationFrame(() => {
       step();
-      // console.log('x = ' + x + ' | y = ' + y);
    })
 }
 step();
@@ -168,7 +180,10 @@ document.querySelector(".dpad-down").addEventListener("mouseover", (e) => handle
 
 // Quest System:
 
-var text = ["Bienvenue dans le monde effrayant des <a class='orange'>Spookymons</a> !", "Déplace-toi avec les flèches du clavier ou sur l'écran.", "Mission 1: Ramasse tous les <a class='orange'>crânes</a>!", "Mission 2: Trouver le <a class='orange'>Fantomichel</a>!"];
+var text = ["Bienvenue dans le monde effrayant des <a class='orange'>Spookymons</a> !", "Déplace-toi avec les flèches du clavier ou sur l'écran.", 
+"Mission 1: Ramasse tous les <a class='orange'>crânes</a>!", 
+"Mission 2: Terminer la potion ! (astuce: va sur le chaudron)",
+"Mission 3: Trouver le <a class='orange'>Fantomichel</a>!"];
 var counter = 0;
 var elem = document.querySelector(".text-info");
 var inst = setInterval(change, 5000);
@@ -180,9 +195,19 @@ function change() {
    }
    if (counter == 2 && inv_skulls == 4)
       counter++;
+      if (counter == 3 && nbr_map == 1)
+      counter++;
    if (counter >= text.length) {
       counter = 0;
       clearInterval(inst);
    }
 }
 change();
+
+
+function distance(x1, y1, x2, y2) {
+   var a = x1 - x2;
+   var b = y1 - y2;
+   var c = Math.sqrt(a * a + b * b);
+   return (c)
+}
