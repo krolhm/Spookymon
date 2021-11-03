@@ -15,13 +15,15 @@ var nbr_map = 0;
 
 var cauldron = document.querySelector(".cauldron");
 
+var fantomichel = document.querySelector(".fantomichel");
+
 // Audio
 var ambiance = new Audio('assets/sounds/ambiance.mp3');
 var pickup = new Audio('assets/sounds/pickup.mp3');
-var a = 0;
 
 // Collectables
 var skulls = document.querySelectorAll(".skull");
+var eyes = document.querySelectorAll(".eye");
 
 // Character
 var character = document.querySelector(".character");
@@ -34,6 +36,9 @@ var speed = 1;
 var inv_skulls_text = document.querySelector(".skulls-text");
 var inv_skulls = 0;
 inv_skulls_text.innerHTML = inv_skulls;
+var inv_eyes_text = document.querySelector(".eyes-text");
+var inv_eyes = 0;
+inv_eyes_text.innerHTML = inv_eyes;
 
 const placeCharacter = () => {
    
@@ -48,10 +53,6 @@ const placeCharacter = () => {
       if (held_direction === directions.down) {y += speed;}
       if (held_direction === directions.up) {y -= speed;}
       character.setAttribute("facing", held_direction);
-      if (a == 0) {
-         a++;
-         ambiance.play();
-      }
    }
    character.setAttribute("walking", held_direction ? "true" : "false");
    
@@ -83,18 +84,42 @@ const placeCharacter = () => {
          skulls = document.querySelectorAll(".skull"); // Actualize skull's list
       }
    });
+   eyes.forEach(e => e.style.transform = `translate3d( ${e.dataset.x * pixelSize}px, ${e.dataset.y * pixelSize}px, 0 )`);
 
    // Portal
    cauldron.style.transform = `translate3d( ${cauldron.dataset.x * pixelSize}px, ${cauldron.dataset.y * pixelSize}px, 0 )`;
 
+   // Pnj
+   if (fantomichel)
+      fantomichel.style.transform = `translate3d( ${fantomichel.dataset.x * pixelSize}px, ${fantomichel.dataset.y * pixelSize}px, 0 )`;
+
    // Go to next level !
    if (nbr_map == 0 && inv_skulls == 4 && distance(x, y, cauldron.dataset.x, cauldron.dataset.y) < 5)
    {
+      ambiance.play();
       nbr_map++;
       inv_skulls = 0;
       inv_skulls_text.innerHTML = inv_skulls;
       document.getElementById("map").classList.remove('map1');
       document.getElementById("map").classList.add('map2');
+      document.querySelector(".eye").remove();
+
+      // Show elements from next map
+      var map1hidden = document.querySelectorAll(".map1-hidden");
+      map1hidden.forEach(function (e) { e.classList.remove('map1-hidden'); });
+      
+      fantomichel = document.querySelector(".fantomichel");
+
+      // adding new elements to the map [DEPRECATED]
+      // document.getElementById("map").innerHTML =
+      // '<div class="character" facing="down" walking="false"> \
+      //    <div class="shadow pixel-art" ></div > \
+      //    <div class="character_sprite pixel-art"></div> \
+      // </div > \
+      // <div class="phantomichel" data-x="100" data-y="100"> \
+      //    <div class="shadow pixel-art"></div> \
+      //    <div class="phantomichel_sprite pixel-art"></div> \
+      // </div>';
    }
 }
 
@@ -195,12 +220,14 @@ function change() {
    }
    if (counter == 2 && inv_skulls == 4)
       counter++;
-      if (counter == 3 && nbr_map == 1)
+   if (counter == 3 && nbr_map == 1)
       counter++;
-   if (counter >= text.length) {
-      counter = 0;
-      clearInterval(inst);
-   }
+   // if (counter == 4)
+   //    counter++;
+   // if (counter >= text.length) {
+   //    counter = 0;
+   //    clearInterval(inst);
+   // }
 }
 change();
 

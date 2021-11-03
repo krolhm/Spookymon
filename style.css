@@ -274,10 +274,26 @@ img {
     height: calc( var(--grid-cell)* 2 );
 }
 
+.phantomichel_sprite {
+    position: absolute;
+    background: url("assets/phantomichel.png") no-repeat no-repeat;
+    background-size: 100%;
+    width: calc( var(--grid-cell)* 2 );
+    height: calc( var(--grid-cell)* 2 );
+}
+
 /* Collectables: */
 .skull_sprite {
     position: absolute;
     background: url("assets/skull.png") no-repeat no-repeat;
+    background-size: 100%;
+    width: calc( var(--grid-cell)* 2 );
+    height: calc( var(--grid-cell)* 2 );
+}
+
+.eye_sprite {
+    position: absolute;
+    background: url("assets/eye.png") no-repeat no-repeat;
     background-size: 100%;
     width: calc( var(--grid-cell)* 2 );
     height: calc( var(--grid-cell)* 2 );
@@ -304,4 +320,8 @@ img {
 .item>.pixel-art {
     width: 100px;
     vertical-align: -100%;
+}
+
+.map1-hidden {
+    visibility: hidden;
 }
